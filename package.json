@@ -22,7 +22,6 @@
     "url": "https://bitbucket.org/krugercorp/node-voip-api"
   },
   "dependencies": {
-    "asterisk-ami": "^0.1.0",
     "config": "^1.17.1",
     "knex": "^0.9.0",
     "md5": "^2.0.0",
