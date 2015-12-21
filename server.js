@@ -46,7 +46,11 @@ domain.run(function () {
     .from(view_name)
     .catch(function(error) {
       // Create view as it's missing
-      knex.raw(create_table_query)
+      knex.transaction(function(trx) {
+        knex.raw(create_table_query)
+        .then(trx.commit)
+        .catch(trx.rollback);
+      })
       .then(function(resp) {
         console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view', view_name);
         console.log (moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), resp);
