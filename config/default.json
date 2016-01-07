@@ -1,6 +1,6 @@
 {
-  "debug": true,
-  "update_interval_sec": 600,
+  "debug": false,
+  "update_interval_sec": 5,
   "mysql": {
     "host"     : "",
     "user"     : "",
@@ -11,4 +11,3 @@
     "iaxtable" : "iaxfriends"
   }
 }
-

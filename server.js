@@ -22,8 +22,10 @@ var knex = require('knex')(
 
 // On any errors. Write them to console and exit program with error code
 domain.on('error', function (err) {
-    if (debug)
+    if (debug) {
       console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), err);
+    }
+
     process.exit(1);
 });
 
@@ -52,14 +54,16 @@ domain.run(function () {
         .catch(trx.rollback);
       })
       .then(function(resp) {
-        console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view', view_name);
-        console.log (moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), resp);
+        if (debug) {
+          console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view', view_name);
+        }
       });
     });
   };
 
-  if (debug)
+  if (debug) {
     console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Will check and create view for ps_registrations for this server every', config.get('update_interval_sec'), 'seconds');
+  }
 
   // Lets update on first run!
   check_for_view();
