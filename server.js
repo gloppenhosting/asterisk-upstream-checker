@@ -49,7 +49,8 @@ domain.run(function () {
     .catch(function(error) {
       // Create view as it's missing
       knex.transaction(function(trx) {
-        knex.raw(create_table_query)
+        trx
+        .raw(create_table_query)
         .then(trx.commit)
         .catch(trx.rollback);
       })
