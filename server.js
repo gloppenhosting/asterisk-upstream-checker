@@ -42,7 +42,7 @@ domain.run(function () {
 
   // Create view name - Use md5 to make sure no lame hostname fucks with table name
   var view_name = "ps_endpoints_external_" + md5(os.hostname());
-  var create_table_query = "CREATE VIEW AS " + view_name + " AS SELECT * FROM ps_endpoints INNER JOIN ps_endpoints_has_iaxfriends ON ps_endpoints.id = ps_endpoints_has_iaxfriends.ps_endpoints_id INNER JOIN iaxfriends ON ps_endpoints_has_iaxfriends.iaxfriends_id = iaxfriends.id WHERE ps_endpoints.context = 'external' AND iaxfriends.name = '" + os.hostname() + "'";
+  var create_table_query = "CREATE VIEW " + view_name + " AS SELECT * FROM ps_endpoints INNER JOIN ps_endpoints_has_iaxfriends ON ps_endpoints.id = ps_endpoints_has_iaxfriends.ps_endpoints_id INNER JOIN iaxfriends ON ps_endpoints_has_iaxfriends.iaxfriends_id = iaxfriends.id WHERE ps_endpoints.context = 'external' AND iaxfriends.name = '" + os.hostname() + "'";
 
   // Check if view for this upstream is in the database
   var check_for_view = function() {
