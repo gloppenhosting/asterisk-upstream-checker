@@ -45,7 +45,7 @@ domain.run(function () {
   var create_table_query = "CREATE VIEW " + view_name + " AS SELECT ps_endpoints.* FROM ps_endpoints INNER JOIN ps_endpoints_has_iaxfriends AS X ON X.ps_endpoints_id = ps_endpoints.id INNER JOIN iaxfriends AS Y ON X.iaxfriends_id = Y.id WHERE ps_endpoints.context = 'external' AND Y.name = '" + os.hostname() + "'";
 
   var view_name2 = "ps_regs_" + md5(os.hostname());
-  var create_table_query2 = "CREATE VIEW " + view_name + " AS SELECT ps_registrations.* FROM ps_endpoints_has_iaxfriends INNER JOIN ps_registrations ON ps_registrations.id = ps_endpoints_has_iaxfriends.ps_endpoints_id INNER JOIN iaxfriends ON ps_endpoints_has_iaxfriends.iaxfriends_id = iaxfriends.id WHERE iaxfriends.name = ''" + os.hostname() + "'";
+  var create_table_query2 = "CREATE VIEW " + view_name2 + " AS SELECT ps_registrations.* FROM ps_endpoints_has_iaxfriends INNER JOIN ps_registrations ON ps_registrations.id = ps_endpoints_has_iaxfriends.ps_endpoints_id INNER JOIN iaxfriends ON ps_endpoints_has_iaxfriends.iaxfriends_id = iaxfriends.id WHERE iaxfriends.name = ''" + os.hostname() + "'";
 
   // Check if view for this upstream is in the database
   var check_for_view = function() {
