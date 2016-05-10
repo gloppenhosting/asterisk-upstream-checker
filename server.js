@@ -66,7 +66,7 @@ domain.run(function() {
     var create_table_query2 = "CREATE VIEW " + view_name2 + " AS SELECT ps_registrations.* FROM ps_endpoints_has_iaxfriends INNER JOIN ps_registrations ON ps_registrations.id = ps_endpoints_has_iaxfriends.ps_endpoints_id INNER JOIN iaxfriends ON ps_endpoints_has_iaxfriends.iaxfriends_id = iaxfriends.id WHERE iaxfriends.name = '" + os.hostname() + "'";
 
     var view_name3 = "ps_aors_" + md5(os.hostname());
-    var create_table_query3 = "CREATE VIEW " + view_name3 + " AS SELECT ps_aors.* FROM ps_aors INNER JOIN ps_endpoints AS Z ON Z.aors = ps_aors.id INNER JOIN ps_endpoints_has_iaxfriends AS X ON X.ps_endpoints_id = Z.id  INNER JOIN iaxfriends AS Y ON X.iaxfriends_id = Y.id WHERE ps_endpoints.context = 'external' AND Y.name = '" + os.hostname() + "'";
+    var create_table_query3 = "CREATE VIEW " + view_name3 + " AS SELECT ps_aors.* FROM ps_aors INNER JOIN ps_endpoints AS Z ON Z.aors = ps_aors.id INNER JOIN ps_endpoints_has_iaxfriends AS X ON X.ps_endpoints_id = Z.id  INNER JOIN iaxfriends AS Y ON X.iaxfriends_id = Y.id WHERE Z.context = 'external' AND Y.name = '" + os.hostname() + "'";
 
     var view_endpoint_internal = "ps_endpoints_internal";
     var create_table_endpoint_internal = "CREATE VIEW " + view_endpoint_internal + " AS SELECT ps_endpoints.* FROM ps_endpoints WHERE context = 'internal'";
