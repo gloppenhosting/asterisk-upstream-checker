@@ -68,6 +68,12 @@ domain.run(function() {
     var view_name3 = "ps_aors_" + md5(os.hostname());
     var create_table_query3 = "CREATE VIEW " + view_name3 + " AS SELECT ps_aors.* FROM ps_aors INNER JOIN ps_endpoints AS Z ON Z.aors = ps_aors.id INNER JOIN ps_endpoints_has_iaxfriends AS X ON X.ps_endpoints_id = Z.id  INNER JOIN iaxfriends AS Y ON X.iaxfriends_id = Y.id WHERE ps_endpoints.context = 'external' AND Y.name = '" + os.hostname() + "'";
 
+    var view_endpoint_internal = "ps_endpoints_internal";
+    var create_table_endpoint_internal = "CREATE VIEW " + view_endpoint_internal + " AS SELECT ps_endpoints.* FROM ps_endpoints WHERE context = 'internal'";
+
+    var view_aors_internal = "ps_aors_internal";
+    var create_table_aors_internal = "CREATE VIEW " + view_aors_internal + " AS SELECT ps_aors.* FROM ps_aors INNER JOIN ps_endpoints ON ps_aors.id = ps_endpoints.aors WHERE ps_endpoints.context = 'internal'";
+
     // Check if view for this upstream is in the database
     var check_for_view = function() {
 
@@ -123,6 +129,40 @@ domain.run(function() {
                     .then(function(resp) {
                         if (debug) {
                             console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors', view_name3);
+                        }
+                    });
+            });
+
+        knex.select('id')
+            .from(view_endpoint_internal)
+            .catch(function(error) {
+                // Create view as it's missing
+                knex.transaction(function(trx) {
+                        trx
+                            .raw(create_table_endpoint_internal)
+                            .then(trx.commit)
+                            .catch(trx.rollback);
+                    })
+                    .then(function(resp) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_endpoints internal', view_endpoint_internal);
+                        }
+                    });
+            });
+
+        knex.select('id')
+            .from(view_aors_internal)
+            .catch(function(error) {
+                // Create view as it's missing
+                knex.transaction(function(trx) {
+                        trx
+                            .raw(create_table_aors_internal)
+                            .then(trx.commit)
+                            .catch(trx.rollback);
+                    })
+                    .then(function(resp) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_endpoints internal', view_aors_internal);
                         }
                     });
             });
