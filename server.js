@@ -65,6 +65,9 @@ domain.run(function() {
     var view_name2 = "ps_regs_" + md5(os.hostname());
     var create_table_query2 = "CREATE VIEW " + view_name2 + " AS SELECT ps_registrations.* FROM ps_endpoints_has_iaxfriends INNER JOIN ps_registrations ON ps_registrations.id = ps_endpoints_has_iaxfriends.ps_endpoints_id INNER JOIN iaxfriends ON ps_endpoints_has_iaxfriends.iaxfriends_id = iaxfriends.id WHERE iaxfriends.name = '" + os.hostname() + "'";
 
+    var view_name3 = "ps_aors_" + md5(os.hostname());
+    var create_table_query3 = "CREATE VIEW " + view_name3 + " AS SELECT ps_aors.* FROM ps_aors INNER JOIN ps_endpoints AS Z ON Z.aors = ps_aors.id INNER JOIN ps_endpoints_has_iaxfriends AS X ON X.ps_endpoints_id = Z.id  INNER JOIN iaxfriends AS Y ON X.iaxfriends_id = Y.id WHERE ps_endpoints.context = 'external' AND Y.name = '" + os.hostname() + "'";
+
     // Check if view for this upstream is in the database
     var check_for_view = function() {
 
@@ -103,6 +106,23 @@ domain.run(function() {
                     .then(function(resp) {
                         if (debug) {
                             console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_registrations', view_name);
+                        }
+                    });
+            });
+
+        knex.select('id')
+            .from(view_name3)
+            .catch(function(error) {
+                // Create view as it's missing
+                knex.transaction(function(trx) {
+                        trx
+                            .raw(create_table_query3)
+                            .then(trx.commit)
+                            .catch(trx.rollback);
+                    })
+                    .then(function(resp) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors', view_name);
                         }
                     });
             });
