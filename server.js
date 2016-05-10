@@ -97,6 +97,11 @@ domain.run(function() {
                         if (debug) {
                             console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_endpoints', view_name);
                         }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_endpoints', view_name, error);
+                        }
                     });
             });
 
@@ -113,6 +118,11 @@ domain.run(function() {
                     .then(function(resp) {
                         if (debug) {
                             console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_registrations', view_name2);
+                        }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_registrations', view_name2, error);
                         }
                     });
             });
@@ -131,6 +141,11 @@ domain.run(function() {
                         if (debug) {
                             console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors', view_name3);
                         }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_aors', view_name3, error);
+                        }
                     });
             });
 
@@ -148,6 +163,11 @@ domain.run(function() {
                         if (debug) {
                             console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_endpoints internal', view_endpoint_internal);
                         }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_endpoints internal', view_endpoint_internal, error);
+                        }
                     });
             });
 
@@ -163,7 +183,12 @@ domain.run(function() {
                     })
                     .then(function(resp) {
                         if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_endpoints internal', view_aors_internal);
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors internal', view_aors_internal);
+                        }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_aors internal', view_aors_internal, error);
                         }
                     });
             });
