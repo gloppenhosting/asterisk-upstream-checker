@@ -105,7 +105,7 @@ domain.run(function() {
                     })
                     .then(function(resp) {
                         if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_registrations', view_name);
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_registrations', view_name2);
                         }
                     });
             });
@@ -122,7 +122,7 @@ domain.run(function() {
                     })
                     .then(function(resp) {
                         if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors', view_name);
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors', view_name3);
                         }
                     });
             });
