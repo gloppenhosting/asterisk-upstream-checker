@@ -81,6 +81,72 @@ domain.run(function() {
     // Check if view for this upstream is in the database
     var check_for_view = function() {
 
+        knex.select('id')
+            .from(view_contacts_internal)
+            .catch(function(error) {
+                // Create view as it's missing
+                knex.transaction(function(trx) {
+                        trx
+                            .raw(create_table_contacts_internal)
+                            .then(trx.commit)
+                            .catch(trx.rollback);
+                    })
+                    .then(function(resp) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_contacts', view_contacts_internal);
+                        }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_contacts', view_contacts_internal, error);
+                        }
+                    });
+            });
+
+        knex.select('id')
+            .from(view_endpoint_internal)
+            .catch(function(error) {
+                // Create view as it's missing
+                knex.transaction(function(trx) {
+                        trx
+                            .raw(create_table_endpoint_internal)
+                            .then(trx.commit)
+                            .catch(trx.rollback);
+                    })
+                    .then(function(resp) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_endpoints internal', view_endpoint_internal);
+                        }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_endpoints internal', view_endpoint_internal, error);
+                        }
+                    });
+            });
+
+        knex.select('id')
+            .from(view_aors_internal)
+            .catch(function(error) {
+                // Create view as it's missing
+                knex.transaction(function(trx) {
+                        trx
+                            .raw(create_table_aors_internal)
+                            .then(trx.commit)
+                            .catch(trx.rollback);
+                    })
+                    .then(function(resp) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors internal', view_aors_internal);
+                        }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_aors internal', view_aors_internal, error);
+                        }
+                    });
+            });
+
         // Only do this on upstream servers
         if (os.hostname().toString().indexOf('upstream') <= -1) {
             return;
@@ -148,72 +214,6 @@ domain.run(function() {
                     .catch(function(error) {
                         if (debug) {
                             console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_aors', view_name3, error);
-                        }
-                    });
-            });
-
-        knex.select('id')
-            .from(view_endpoint_internal)
-            .catch(function(error) {
-                // Create view as it's missing
-                knex.transaction(function(trx) {
-                        trx
-                            .raw(create_table_endpoint_internal)
-                            .then(trx.commit)
-                            .catch(trx.rollback);
-                    })
-                    .then(function(resp) {
-                        if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_endpoints internal', view_endpoint_internal);
-                        }
-                    })
-                    .catch(function(error) {
-                        if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_endpoints internal', view_endpoint_internal, error);
-                        }
-                    });
-            });
-
-        knex.select('id')
-            .from(view_aors_internal)
-            .catch(function(error) {
-                // Create view as it's missing
-                knex.transaction(function(trx) {
-                        trx
-                            .raw(create_table_aors_internal)
-                            .then(trx.commit)
-                            .catch(trx.rollback);
-                    })
-                    .then(function(resp) {
-                        if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_aors internal', view_aors_internal);
-                        }
-                    })
-                    .catch(function(error) {
-                        if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_aors internal', view_aors_internal, error);
-                        }
-                    });
-            });
-
-        knex.select('id')
-            .from(view_contacts_internal)
-            .catch(function(error) {
-                // Create view as it's missing
-                knex.transaction(function(trx) {
-                        trx
-                            .raw(create_table_contacts_internal)
-                            .then(trx.commit)
-                            .catch(trx.rollback);
-                    })
-                    .then(function(resp) {
-                        if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_contacts', view_contacts_internal);
-                        }
-                    })
-                    .catch(function(error) {
-                        if (debug) {
-                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_contacts', view_contacts_internal, error);
                         }
                     });
             });
