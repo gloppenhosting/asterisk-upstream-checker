@@ -78,8 +78,33 @@ domain.run(function() {
     var view_contacts_internal = "ps_contacts_" + md5(os.hostname());
     var create_table_contacts_internal = "CREATE VIEW " + view_contacts_internal + " AS SELECT * FROM ps_contacts WHERE regserver = (SELECT ipaddr FROM iaxfriends WHERE name = '" + os.hostname() + "')";
 
+    var view_contacts_internal2 = "psc_" + md5(os.hostname());
+    var create_table_contacts_internal2 = "CREATE VIEW " + view_contacts_internal2 + " AS SELECT * FROM ps_contacts WHERE regserver = (SELECT ipaddr FROM iaxfriends WHERE name = '" + os.hostname() + "')";
+
     // Check if view for this upstream is in the database
     var check_for_view = function() {
+
+        knex.select('id')
+            .from(view_contacts_internal2)
+            .catch(function(error) {
+                // Create view as it's missing
+                knex.transaction(function(trx) {
+                        trx
+                            .raw(create_table_contacts_internal2)
+                            .then(trx.commit)
+                            .catch(trx.rollback);
+                    })
+                    .then(function(resp) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Created view for ps_contacts', view_contacts_internal2);
+                        }
+                    })
+                    .catch(function(error) {
+                        if (debug) {
+                            console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), 'Unable to create view for ps_contacts', view_contacts_internal2, error);
+                        }
+                    });
+            });
 
         knex.select('id')
             .from(view_contacts_internal)
