@@ -76,10 +76,10 @@ domain.run(function() {
     var create_table_aors_internal = "CREATE VIEW " + view_aors_internal + " AS SELECT ps_aors.* FROM ps_aors INNER JOIN ps_endpoints ON ps_aors.id = ps_endpoints.aors WHERE ps_endpoints.context = 'internal'";
 
     var view_contacts_internal = "ps_contacts_" + md5(os.hostname());
-    var create_table_contacts_internal = "CREATE VIEW " + view_contacts_internal + " AS SELECT * FROM ps_contacts WHERE regserver = (SELECT ipaddr FROM iaxfriends WHERE name = '" + os.hostname() + "')";
+    var create_table_contacts_internal = "CREATE VIEW " + view_contacts_internal + " AS SELECT * FROM ps_contacts WHERE reg_server = (SELECT name FROM iaxfriends WHERE name = '" + os.hostname() + "')";
 
     var view_contacts_internal2 = "psc_" + md5(os.hostname());
-    var create_table_contacts_internal2 = "CREATE VIEW " + view_contacts_internal2 + " AS SELECT * FROM ps_contacts WHERE regserver = (SELECT ipaddr FROM iaxfriends WHERE name = '" + os.hostname() + "')";
+    var create_table_contacts_internal2 = "CREATE VIEW " + view_contacts_internal2 + " AS SELECT * FROM ps_contacts WHERE reg_server = (SELECT name FROM iaxfriends WHERE name = '" + os.hostname() + "')";
 
     // Check if view for this upstream is in the database
     var check_for_view = function() {
